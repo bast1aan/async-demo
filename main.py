@@ -25,7 +25,7 @@ async def toast_bread(slices:int):
 		for slice in range(0, slices):
 			toaster.do('Putting a slice of bread in the toaster')
 		toaster.do('Start toasting...')
-		toaster.cook(seconds=4)
+		await toaster.cook(seconds=4)
 		Toast = Bread
 		toaster.do('Remove toast from toaster')
 		return Toast()
@@ -34,20 +34,20 @@ async def fry_ham(slices:int):
 	with Fryer() as fryer:
 		fryer.do(f'putting {slices} slices of ham in the pan')
 		fryer.do('cooking first side of ham...')
-		fryer.cook(seconds=3)
+		await fryer.cook(seconds=3)
 		for slice in range(0, slices):
 			fryer.do('flipping a slice of ham')
 		fryer.do('cooking other side of ham...')
-		fryer.cook(seconds=3)
+		await fryer.cook(seconds=3)
 		fryer.do('put ham on plate')
 		return Ham()
 
 async def cook_eggs(how_many:int) -> Egg:
 	with EggCooker() as egg_cooker:
 		egg_cooker.do('Warming the egg cooker')
-		egg_cooker.cook(3)
+		await egg_cooker.cook(3)
 		egg_cooker.do(f'cook {how_many} eggs')
-		egg_cooker.cook(3)
+		await egg_cooker.cook(3)
 		egg_cooker.do('put eggs on plate')
 		return Egg()
 
