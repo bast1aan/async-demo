@@ -1,3 +1,4 @@
+import asyncio
 import time
 
 from pantry import Egg, Bread, Coffee
@@ -19,7 +20,7 @@ def apply_jam(toast:Bread):
 def apply_butter(toast:Bread):
 	print('Putting butter on the toast')
 
-def toast_bread(slices:int):
+async def toast_bread(slices:int):
 	with Toaster() as toaster:
 		for slice in range(0, slices):
 			toaster.do('Putting a slice of bread in the toaster')
@@ -29,7 +30,7 @@ def toast_bread(slices:int):
 		toaster.do('Remove toast from toaster')
 		return Toast()
 
-def fry_ham(slices:int):
+async def fry_ham(slices:int):
 	with Fryer() as fryer:
 		fryer.do(f'putting {slices} slices of ham in the pan')
 		fryer.do('cooking first side of ham...')
@@ -41,7 +42,7 @@ def fry_ham(slices:int):
 		fryer.do('put ham on plate')
 		return Ham()
 
-def cook_eggs(how_many:int) -> Egg:
+async def cook_eggs(how_many:int) -> Egg:
 	with EggCooker() as egg_cooker:
 		egg_cooker.do('Warming the egg cooker')
 		egg_cooker.cook(3)
@@ -51,15 +52,15 @@ def cook_eggs(how_many:int) -> Egg:
 		return Egg()
 
 
-if __name__ == '__main__':
+async def main():
 	now = time.time()
-	eggs:Egg = cook_eggs(how_many=2)
+	eggs:Egg = await cook_eggs(how_many=2)
 	print('eggs are ready')
 
-	ham:Ham = fry_ham(slices=3)
+	ham:Ham = await fry_ham(slices=3)
 	print('Ham is ready')
 
-	toast:Bread = toast_bread(slices=2)
+	toast:Bread = await toast_bread(slices=2)
 	apply_butter(toast)
 	apply_jam(toast)
 	print('Toast is ready')
@@ -72,3 +73,5 @@ if __name__ == '__main__':
 
 	print('Breakfest ready! in %s s' % int(round(time.time() - now)))
 
+if __name__ == '__main__':
+	asyncio.run(main())
