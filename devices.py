@@ -11,8 +11,8 @@ class Device:
 		self.f.write(msg)
 		self.f.write('\n')
 		self.f.flush()
-	def cook(self, seconds:float):
-		spin(self.f, seconds)
+	async def cook(self, seconds:float):
+		await spin(self.f, seconds)
 		self.f.write('\n')
 
 
