@@ -1,6 +1,7 @@
 import asyncio
 import time
 from asyncio import Future
+from typing import Tuple
 
 from pantry import Egg, Bread, Coffee
 from fridge import Juice, Ham
@@ -56,14 +57,12 @@ async def cook_eggs(how_many:int) -> Egg:
 async def main():
 	now = time.time()
 
-	print('Put the egg cooker to work')
-	future_eggs:Future[Egg] = asyncio.ensure_future(cook_eggs(how_many=2))
-
-	print('Put the ham fryer to work')
-	future_ham:Future[Ham] = asyncio.ensure_future(fry_ham(slices=3))
-
-	print('Put the toaster to work')
-	future_toast:Future[Bread] = asyncio.ensure_future(toast_bread(slices=2))
+	print('Put the egg cooker, ham fryer and toaster all to work')
+	future_meal:Future[Tuple[Egg, Ham, Bread]] = asyncio.gather(
+		cook_eggs(how_many=2),
+		fry_ham(slices=3),
+		toast_bread(slices=2),
+	)
 
 	cup:Coffee = pour_coffee()
 	print('coffee is ready')
@@ -71,22 +70,15 @@ async def main():
 	oj:Juice = pour_orange_juice()
 	print('Orange juice is ready')
 
-	print('Waiting for the toast to be ready..')
-	toast:Bread = await future_toast
-	print('Toast is toasted!')
+	print('Waiting for the meal to be ready!')
+	toast:Bread
+	ham:Ham
+	eggs:Egg
+	toast, ham, eggs = await future_meal
+	print('Meal is ready! We have our toast, ham and eggs')
 
 	apply_butter(toast)
 	apply_jam(toast)
-	print('Toast is ready!')
-
-	print('Waiting for the ham to be ready..')
-	ham:Ham = await future_ham
-	print('Ham is ready!')
-
-	print('Waiting for the eggs to be ready')
-	eggs:Egg = await future_eggs
-	print('eggs are ready!')
-
 
 	print('Breakfest ready! in %s s' % int(round(time.time() - now)))
 
