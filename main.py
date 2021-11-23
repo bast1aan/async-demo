@@ -41,11 +41,11 @@ def fry_ham(slices:int):
 		fryer.do('put ham on plate')
 		return Ham()
 
-def fry_eggs(how_many:int) -> Egg:
+def cook_eggs(how_many:int) -> Egg:
 	with EggCooker() as egg_cooker:
 		egg_cooker.do('Warming the egg cooker')
 		egg_cooker.cook(3)
-		egg_cooker.do(f'cracking {how_many} eggs')
+		egg_cooker.do(f'cook {how_many} eggs')
 		egg_cooker.cook(3)
 		egg_cooker.do('put eggs on plate')
 		return Egg()
@@ -53,7 +53,7 @@ def fry_eggs(how_many:int) -> Egg:
 
 if __name__ == '__main__':
 	now = time.time()
-	eggs:Egg = fry_eggs(how_many=2)
+	eggs:Egg = cook_eggs(how_many=2)
 	print('eggs are ready')
 
 	ham:Ham = fry_ham(slices=3)
