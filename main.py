@@ -1,3 +1,5 @@
+import time
+
 from pantry import Egg, Bread, Coffee
 from fridge import Juice, Ham
 
@@ -50,6 +52,7 @@ def fry_eggs(how_many:int) -> Egg:
 
 
 if __name__ == '__main__':
+	now = time.time()
 	eggs:Egg = fry_eggs(how_many=2)
 	print('eggs are ready')
 
@@ -67,5 +70,5 @@ if __name__ == '__main__':
 	oj:Juice = pour_orange_juice()
 	print('Orange juice is ready')
 
-	print('Breakfest ready!')
+	print('Breakfest ready! in %s s' % int(round(time.time() - now)))
 
